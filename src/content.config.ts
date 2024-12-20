@@ -1,10 +1,9 @@
-import { defineCollection, reference, z, type ImageFunction } from 'astro:content';
+import { defineCollection, z, type ImageFunction } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const experiences = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/experiences' }),
   schema: z.object({
-    // basic
     company: z.string(),
     type: z.enum(['scaleup', 'corporate', 'agency']),
     website: z.string().optional(),
@@ -12,9 +11,7 @@ const experiences = defineCollection({
     freelance: z.boolean().optional(),
     startDate: z.date(),
     endDate: z.date().optional(),
-    summary: z.string(),
-    // details
-    relatedProjects: z.array(reference('projects')).optional()
+    summary: z.string()
   })
 });
 
@@ -26,12 +23,24 @@ const projects = defineCollection({
       name: z.string(),
       website: z.string(),
       summary: z.string(),
+      date: z.date()
+    })
+});
+
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/data/posts' }),
+  schema: ({ image }: { image: ImageFunction }) =>
+    z.object({
+      image: image(),
+      title: z.string(),
       date: z.date(),
-      stack: z.array(z.string())
+      readingTime: z.number(),
+      summary: z.string()
     })
 });
 
 export const collections = {
   experiences,
-  projects
+  projects,
+  posts
 };

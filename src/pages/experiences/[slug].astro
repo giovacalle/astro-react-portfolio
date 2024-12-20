@@ -1,9 +1,9 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getExperiences } from '@data/mappings';
 import { render } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import Chip from '@components/ui/Chip.astro';
-import { getExperiences } from '@data/mappings';
-import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   experience: CollectionEntry<'experiences'>;
@@ -51,7 +51,7 @@ const { Content } = await render(experience);
       <span>Period</span>
       <Chip class="bg-yellow-100">{experience.data.startDate} - {experience.data.endDate}</Chip>
     </div>
-    <div class="text-white" data-content>
+    <div data-content>
       <Content />
     </div>
   </section>
