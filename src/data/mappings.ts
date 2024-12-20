@@ -1,7 +1,8 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-export const getExperiences = async (preview = false) => {
+export const getExperiences = async () => {
   const collection = (await getCollection('experiences')) as CollectionEntry<'experiences'>[];
+
   const experiences = collection
     .sort((a, b) => (a.data.startDate > b.data.startDate ? -1 : 1))
     .map(exp => ({
@@ -21,5 +22,5 @@ export const getExperiences = async (preview = false) => {
       }
     }));
 
-  return preview ? experiences.slice(0, 3) : experiences;
+  return experiences;
 };

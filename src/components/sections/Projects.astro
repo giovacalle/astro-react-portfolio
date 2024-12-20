@@ -1,11 +1,18 @@
 ---
 import PreviewLink from '@components/sections/PreviewLink.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { Icon } from '@iconify/react';
 
 interface Props {
   preview?: boolean;
 }
 
 const { preview = false } = Astro.props as Props;
+
+const projects = (await getCollection('projects')).sort((a, b) =>
+  a.data.date > b.data.date ? -1 : 1
+);
 ---
 
 <section class="flex flex-col gap-10 opacity-0" data-animate-inview>
@@ -14,6 +21,36 @@ const { preview = false } = Astro.props as Props;
     <br />
     <span class="text-dark-mode-gray-semiDark">PROJECTS</span>
   </h1>
-  <p class="text-white">Cooming soon...</p>
-  {preview && <PreviewLink link="/projects/" />}
+  <ul class="flex max-w-xl flex-col">
+    {
+      projects.map(({ data }) => (
+        <li class="group/link relative cursor-pointer rounded-lg p-5 hover:bg-dark-mode-gray-semiDark">
+          <a
+            href={data.website}
+            class="flex max-w-full gap-4 max-sm:flex-col"
+            target="_blank"
+            rel="noopener noreferrer">
+            <Image
+              src={data.image}
+              alt={data.name}
+              class="h-48 w-48 rounded-lg object-contain max-sm:mx-auto"
+            />
+            <div class="flex max-w-full flex-col gap-4 sm:flex-[0.8]">
+              <h3 class="text-xl font-bold text-white md:text-2xl">{data.name}</h3>
+              <p class="text-dark-mode-gray-light">{data.summary}</p>
+            </div>
+          </a>
+          <Icon
+            client:load
+            icon="material-symbols-light:arrow-right-alt-rounded"
+            width={30}
+            height={30}
+            color="white"
+            className="absolute top-5 right-5 -rotate-45 translate-y-0 translate-x-0 transition-transform duration-200 group-hover/link:translate-x-2 group-hover/link:-translate-y-2"
+          />
+        </li>
+      ))
+    }
+  </ul>
+  {preview && projects.length > 3 && <PreviewLink link="/projects/" />}
 </section>

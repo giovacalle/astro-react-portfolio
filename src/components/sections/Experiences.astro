@@ -1,8 +1,8 @@
 ---
-import PreviewLink from '@components/sections/PreviewLink.astro';
+import { getExperiences } from '@data/mappings';
 import Chip from '@components/ui/Chip.astro';
 import { Icon } from '@iconify/react';
-import { getExperiences } from '@data/mappings';
+import PreviewLink from '@components/sections/PreviewLink.astro';
 
 interface Props {
   preview?: boolean;
@@ -10,7 +10,7 @@ interface Props {
 
 const { preview = false } = Astro.props as Props;
 
-const experiences = await getExperiences(preview);
+const experiences = await getExperiences();
 ---
 
 <section class="flex flex-col gap-10 opacity-0" data-animate-inview>
@@ -50,7 +50,7 @@ const experiences = await getExperiences(preview);
   </div>
   <ul class="flex max-w-xl flex-col">
     {
-      experiences.map(({ data, id }) => (
+      (preview ? experiences.slice(0, 3) : experiences).map(({ data, id }) => (
         <li class="group/link cursor-pointer rounded-lg p-5 hover:bg-dark-mode-gray-semiDark">
           <a href={`/experiences/${id}/`} class="flex max-w-full flex-col gap-4">
             <h3 class="text-xl font-bold text-white md:text-2xl">{data.company}</h3>
@@ -77,5 +77,5 @@ const experiences = await getExperiences(preview);
       ))
     }
   </ul>
-  {preview && <PreviewLink link="/experiences/" />}
+  {preview && experiences.length > 3 && <PreviewLink link="/projects/" />}
 </section>
