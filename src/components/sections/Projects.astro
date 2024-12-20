@@ -1,0 +1,19 @@
+---
+import PreviewLink from '@components/sections/PreviewLink.astro';
+
+interface Props {
+  preview?: boolean;
+}
+
+const { preview = false } = Astro.props as Props;
+---
+
+<section class="flex flex-col gap-10 opacity-0" data-animate-inview>
+  <h1 class="text-4xl font-bold leading-none text-white md:text-[70px]">
+    RECENT
+    <br />
+    <span class="text-dark-mode-gray-semiDark">PROJECTS</span>
+  </h1>
+  <p class="text-white">Cooming soon...</p>
+  {preview && <PreviewLink link="/projects/" />}
+</section>

@@ -1,0 +1,21 @@
+---
+const lastUpdated = new Date('2024-12-17')
+  .toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  })
+  .toString();
+---
+
+<footer
+  class="text-dark-mode-gray-light mt-14 flex w-full items-center justify-around gap-4 max-sm:flex-col">
+  <span class="text-md"
+    >Made by me with <a
+      href="https://astro.build/"
+      class="text-dark-mode-violet underline"
+      rel="noopener noreferrer"
+      target="_blank">Astro</a
+    ></span
+  >
+  <span class="text-md">Last updated on: {lastUpdated}</span>
+</footer>

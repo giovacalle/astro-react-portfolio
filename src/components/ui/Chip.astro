@@ -1,0 +1,17 @@
+---
+import { cn } from './utils';
+
+interface Props {
+  class?: string;
+}
+
+const { class: classCustom = '' } = Astro.props as Props;
+---
+
+<span
+  class={cn(
+    'w-max inline-flex items-center rounded-full bg-gray-200 px-2 py-1 text-sm font-medium text-gray-800',
+    classCustom
+  )}>
+  <slot />
+</span>

@@ -1,0 +1,81 @@
+---
+import PreviewLink from '@components/sections/PreviewLink.astro';
+import Chip from '@components/ui/Chip.astro';
+import { Icon } from '@iconify/react';
+import { getExperiences } from '@data/mappings';
+
+interface Props {
+  preview?: boolean;
+}
+
+const { preview = false } = Astro.props as Props;
+
+const experiences = await getExperiences(preview);
+---
+
+<section class="flex flex-col gap-10 opacity-0" data-animate-inview>
+  <h1 class="text-4xl font-bold leading-none text-white md:text-[70px]">
+    +{new Date().getFullYear() - 2018} YEARS OF
+    <br />
+    <span class="text-dark-mode-gray-semiDark">EXPERIENCE</span>
+  </h1>
+  <div class="flex flex-wrap items-center gap-10">
+    <div class="flex flex-col gap-1">
+      <h2 class="text-2xl font-bold text-dark-mode-green md:text-3xl">
+        +{new Date().getFullYear() - 2020} YEARS
+      </h2>
+      <span class="text-md text-dark-mode-gray-light"
+        >using
+        <a href="https://react.dev/" class="underline">React</a>
+      </span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <h2 class="text-2xl font-bold text-dark-mode-orange md:text-3xl">
+        +{new Date().getFullYear() - 2021} YEARS
+      </h2>
+      <span class="text-md text-dark-mode-gray-light"
+        >using
+        <a href="https://nextjs.dev/" class="underline">Next.js</a>
+      </span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <h2 class="text-2xl font-bold text-dark-mode-violet md:text-3xl">
+        +{new Date().getFullYear() - 2022} YEARS
+      </h2>
+      <span class="text-md text-dark-mode-gray-light"
+        >using
+        <a href="https://astro.build/" class="underline">Astro</a>
+      </span>
+    </div>
+  </div>
+  <ul class="flex max-w-xl flex-col">
+    {
+      experiences.map(({ data, id }) => (
+        <li class="group/link cursor-pointer rounded-lg p-5 hover:bg-dark-mode-gray-semiDark">
+          <a href={`/experiences/${id}/`} class="flex max-w-full flex-col gap-4">
+            <h3 class="text-xl font-bold text-white md:text-2xl">{data.company}</h3>
+            <div class="flex items-center gap-3 capitalize">
+              <Chip>{data.type}</Chip>
+              <Chip class="bg-dark-mode-green text-white">{data.role}</Chip>
+              {data.freelance && <Chip class="bg-dark-mode-orange text-black">Freelance</Chip>}
+            </div>
+            <p class="text-dark-mode-gray-light">{data.summary}</p>
+            <p class="text-dark-mode-gray-light">
+              {data.startDate} - {data.endDate}
+            </p>
+            <span class="-mt-3 ml-auto inline-flex items-center gap-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover/link:opacity-100">
+              View more
+              <Icon
+                client:load
+                icon="material-symbols-light:arrow-right-alt-rounded"
+                width={24}
+                height={24}
+              />
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  {preview && <PreviewLink link="/experiences/" />}
+</section>

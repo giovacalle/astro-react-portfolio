@@ -1,0 +1,78 @@
+---
+import { render } from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+import Chip from '@components/ui/Chip.astro';
+import { getExperiences } from '@data/mappings';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  experience: CollectionEntry<'experiences'>;
+}
+
+export async function getStaticPaths() {
+  const experiences = await getExperiences();
+  return experiences.map(exp => ({
+    params: { slug: exp.id },
+    props: {
+      experience: exp
+    }
+  }));
+}
+
+const { experience } = Astro.props;
+
+const { Content } = await render(experience);
+---
+
+<Layout>
+  <section class="flex flex-col gap-10 opacity-0" data-animate-inview>
+    <h1 class="text-4xl font-bold leading-none text-white md:text-[70px]">
+      EXPERIENCE IN
+      <br />
+      <a
+        href={experience.data.website}
+        class="text-dark-mode-gray-semiDark underline"
+        rel="noopener noreferrer"
+        target="_blank">
+        {experience.data.company}
+      </a>
+    </h1>
+    <h2 class="text-lg text-dark-mode-gray-light">
+      {experience.data.summary}
+    </h2>
+    <div class="grid w-max grid-cols-1 gap-5 text-white md:grid-cols-2">
+      <span>Company type</span>
+      <Chip class="capitalize">{experience.data.type}</Chip>
+      <span>My role</span>
+      <div class="flex flex-wrap items-center gap-x-3">
+        <Chip class="bg-dark-mode-green text-white">{experience.data.role}</Chip>
+        {experience.data.freelance && <Chip class="bg-dark-mode-orange text-black">Freelance</Chip>}
+      </div>
+      <span>Period</span>
+      <Chip class="bg-yellow-100">{experience.data.startDate} - {experience.data.endDate}</Chip>
+    </div>
+    <div class="text-white" data-content>
+      <Content />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  [data-content] {
+    h3 {
+      @apply my-5 text-xl font-bold text-white;
+    }
+
+    * {
+      @apply text-sm text-dark-mode-gray-light md:text-base;
+    }
+
+    p {
+      @apply mb-2;
+    }
+
+    ul {
+      @apply flex list-none flex-col gap-2;
+    }
+  }
+</style>

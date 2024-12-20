@@ -1,0 +1,22 @@
+---
+import { Icon } from '@iconify/react';
+
+interface Props {
+  link: string;
+}
+
+const { link } = Astro.props as Props;
+---
+
+<a
+  href={link}
+  class="group/link text-md ml-auto flex items-center gap-0.5 rounded-lg p-1 pl-2 font-bold text-white transition-colors hover:bg-dark-mode-violet">
+  View all
+  <Icon
+    client:load
+    icon="material-symbols-light:arrow-right-alt-rounded"
+    width={30}
+    height={30}
+    className="transition-transform group-hover/link:translate-x-1"
+  />
+</a>
