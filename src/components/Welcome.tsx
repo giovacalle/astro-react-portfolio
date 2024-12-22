@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import Typewriter from 'typewriter-effect';
 import { useSessionStorage } from '@components/hooks/useSessionStorage';
+import GraphemeSplitter from 'grapheme-splitter';
+import Typewriter from 'typewriter-effect';
 
 export const Welcome = () => {
   const [animatedSession, setAnimatedSession] = useSessionStorage<boolean>(
     'badge-welcome-animated',
     false
   );
-  const [isAnimated, setIsAnimated] = useState(false);
 
   // this is needed for the first render (where value in session storage is not yet set)
-  if (!isAnimated && animatedSession) {
+  if (animatedSession) {
     return (
-      <p className="text-dark-mode-gray-light text-center text-lg">
+      <p className="text-center text-lg text-dark-mode-gray-light">
         Hello there 👋,
         <br />
         welcome to my portfolio 🚀
@@ -21,10 +20,15 @@ export const Welcome = () => {
   }
 
   return (
-    <p className="text-dark-mode-gray-light text-center text-lg">
+    <div className="text-center text-lg text-dark-mode-gray-light">
       <Typewriter
         options={{
-          delay: 85
+          delay: 85,
+          // @ts-expect-error dont know why but it complains about arrays of chars
+          stringSplitter: (val: string) => {
+            const splitter = new GraphemeSplitter();
+            return splitter.splitGraphemes(val);
+          }
         }}
         onInit={typewriter => {
           typewriter
@@ -36,11 +40,10 @@ export const Welcome = () => {
             .start()
             .callFunction(({ elements }) => {
               setAnimatedSession(true);
-              setIsAnimated(true);
               elements.cursor.remove();
             });
         }}
       />
-    </p>
+    </div>
   );
 };

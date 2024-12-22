@@ -26,7 +26,7 @@ const title = currentPage.replaceAll('/', '');
           <BadgeCard />
         </div>
       </div>
-      <div class="col-span-1 flex flex-col gap-10 md:col-span-7 md:gap-20">
+      <div class="col-span-1 flex flex-col gap-14 md:col-span-7 md:gap-20">
         <slot />
       </div>
     </main>
@@ -37,11 +37,7 @@ const title = currentPage.replaceAll('/', '');
 <script>
   import { inView, animate } from 'motion';
 
-  inView(
-    '[data-animate-inview]',
-    ({ target }) => {
-      animate(target, { opacity: 1, y: [-50, 0] }, { duration: 0.8 });
-    },
-    { amount: 0.3 }
-  );
+  inView('[data-animate-inview]', ({ target }) => {
+    animate(target, { opacity: 1, y: [-50, 0] }, { duration: 0.8 });
+  });
 </script>
