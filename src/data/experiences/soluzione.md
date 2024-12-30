@@ -15,6 +15,7 @@ The stack I mainly use: **jQuery**, **React**, **.NET** (**C#**)
 - Rewriting from scratch the web application for the management of private and parochial schools ([Scuolaonline](https://www.soluzione.eu/scuolaonline.html))
 - Refactoring the backend service for school secretaries and administration after migrating to .NET Core
 - Added important new features for digital signatures (integrating with external providers such as **Aruba** and **Namirial**)
+- Design and management of web services for the Ministry of Education
 
 ### 💪 Problems and Challenges
 
