@@ -1,7 +1,7 @@
 ---
-image: 'https://nextlaunchkit.com/_next/image?url=%2Fnextlaunchkit.png&w=1920&q=75'
+image: '../../assets/projects/nextlaunchkit.webp'
 name: 'Next Launch Kit'
-website: 'https://nextlaunchkit.com'
+website: 'https://github.com/giovacalle/next-launch-kit'
 summary: 'An open-source project that aims to be a template for new projects built with Next.js'
 date: 2024-12-01
 ---
